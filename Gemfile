@@ -7,3 +7,9 @@ gem 'jekyll-include-cache'
 gem 'minimal-mistakes-jekyll'
 
 gem "activesupport", ">= 6.0.3.1"
+
+gem 'wdm', '>= 0.1.0'
+
+gem 'jekyll', '~> 3.9.5'
+
+gem 'webrick', '~> 1.7'
