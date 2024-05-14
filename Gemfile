@@ -1,0 +1,15 @@
+source "https://rubygems.org"
+
+gem "github-pages", group: :jekyll_plugins
+
+gem 'jekyll-include-cache'
+
+gem 'minimal-mistakes-jekyll'
+
+gem "activesupport", ">= 6.0.3.1"
+
+gem 'jekyll', '~> 3.9.5'
+
+gem 'webrick', '~> 1.7'
+
+
