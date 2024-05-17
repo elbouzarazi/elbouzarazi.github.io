@@ -1,0 +1,606 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>MemLabs - Lab6 - Zakariae el bouzarazi</title>
+<meta name="description" content="Note: This challenge is composed of 1 flag. The flag format for this lab is: inctf{s0me_l33t_Str1ng}… ">
+
+
+  <meta name="author" content="Zakariae El bouzarazi">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Zakariae el bouzarazi">
+<meta property="og:title" content="MemLabs - Lab6">
+<meta property="og:url" content="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/ctf%20writeups/memlabs-lab6/">
+
+
+  <meta property="og:description" content="Note: This challenge is composed of 1 flag. The flag format for this lab is: inctf{s0me_l33t_Str1ng}… ">
+
+
+
+  <meta property="og:image" content="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/assets/images/ctf-writeups/memlabs/logo.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2020-05-17T00:00:00+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/ctf%20writeups/memlabs-lab6/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "zakariae Elbouzarazi",
+      "url": "https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="J3MnMF94zaZhTUoNtUiRt9cKsr7hiMyTxEdAvQ3GfmY" />
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/pages/elbouzarazi/feed.xml" type="application/atom+xml" rel="alternate" title="Zakariae el bouzarazi Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/pages/elbouzarazi/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+<!-- favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/site_data/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/site_data/favicon-16x16.png">
+<meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/pages/elbouzarazi/"><img src="/pages/elbouzarazi/assets/images/site_data/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/pages/elbouzarazi/">
+          Zakariae el bouzarazi
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#malware-analysis">Malware Analysis</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#binary-exploitation">Binary Exploitation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#ctf-writeups">CTF Writeups</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#tutorials">Tutorials</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories">All Categories</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/pages/elbouzarazi/assets/images/site_data/avatar.jpg" alt="Zakariae El bouzarazi" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Zakariae El bouzarazi</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Malware Analysis &amp; Reverse Engineering Adventures.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="zekuelbouzrazi@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/_n1ghtw0lf" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/zakariae-elbouzarazi-34126b293/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/elbouzarazi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="MemLabs - Lab6">
+    <meta itemprop="description" content="  Challenge Description  Note: This challenge is composed of 1 flag.  The flag format for this lab is: inctf{s0me_l33t_Str1ng}  Challenge file: MemLabs_Lab6">
+    <meta itemprop="datePublished" content="2020-05-17T00:00:00+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">MemLabs - Lab6
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 minute read
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <blockquote>
+  <h2 id="challenge-description"><strong>Challenge Description</strong></h2>
+
+  <p><strong>Note</strong>: This challenge is composed of 1 flag.</p>
+
+  <p>The flag format for this lab is: <strong>inctf{s0me_l33t_Str1ng}</strong></p>
+
+  <p><strong>Challenge file</strong>: <a href="https://mega.nz/#!C0pjUKxI!LnedePAfsJvFgD-Uaa4-f1Tu0kl5bFDzW6Mn2Ng6pnM">MemLabs_Lab6</a></p>
+</blockquote>
+
+<p>First we need to identify the operating system of the memory image.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab6.raw imageinfo
+</code></pre></div></div>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/1.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/1.png" alt="1" /></a></p>
+
+<p>Next, let’s check the running processes.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab6.raw --profile Win7SP1x64 pslist
+</code></pre></div></div>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/2.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/2.png" alt="2" /></a></p>
+
+<p>We can see some interesting processes here like <code class="language-plaintext highlighter-rouge">WinRAR</code>, <code class="language-plaintext highlighter-rouge">chrome</code> and <code class="language-plaintext highlighter-rouge">firefox</code> so let’s start with <code class="language-plaintext highlighter-rouge">WinRAR</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility --plugins=plugins/ -f MemoryDump_Lab6.raw --profile Win7SP1x64 cmdline | grep WinRAR.exe
+Volatility Foundation Volatility Framework 2.6.1
+WinRAR.exe pid:   3716
+Command line : "C:\Program Files\WinRAR\WinRAR.exe" "C:\Users\Jaffa\Desktop\pr0t3ct3d\flag.rar"
+</code></pre></div></div>
+
+<p>Oh, that file name is interesting, let’s dump it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab6.raw --profile Win7SP1x64 filescan | grep flag.rar
+Volatility Foundation Volatility Framework 2.6.1
+0x000000005fcfc4b0     16      0 R--rwd \Device\HarddiskVolume2\Users\Jaffa\Desktop\pr0t3ct3d\flag.rar
+
+$ volatility -f MemoryDump_Lab6.raw --profile Win7SP1x64 dumpfiles -Q 0x000000005fcfc4b0 -D lab6_output/
+Volatility Foundation Volatility Framework 2.6.1
+DataSectionObject 0x5fcfc4b0   None   \Device\HarddiskVolume2\Users\Jaffa\Desktop\pr0t3ct3d\flag.rar
+</code></pre></div></div>
+
+<p>Next, let’s try to unrar it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ unrar e flag.rar 
+UNRAR 5.61 beta 1 freeware      Copyright (c) 1993-2018 Alexander Roshal
+Extracting from flag.rar
+Enter password (will not be echoed) for flag2.png: 
+</code></pre></div></div>
+
+<p>Of course it’s encrypted :(</p>
+
+<p>Let’s take a step back and try more plugins.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility --plugins=plugins/ -f MemoryDump_Lab6.raw --profile Win7SP1x64 consoles
+</code></pre></div></div>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/3.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/3.png" alt="3" /></a></p>
+
+<p>I noticed the author is running <code class="language-plaintext highlighter-rouge">env</code> command, I suspect it’s a hint for us.</p>
+
+<p>So let’s try dumping the environment variables for <code class="language-plaintext highlighter-rouge">WinRAR</code>.</p>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/4.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/4.png" alt="4" /></a></p>
+
+<p>Awesome, not we now that the rar password is: <code class="language-plaintext highlighter-rouge">easypeasyvirus</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ unrar e flag.rar 
+UNRAR 5.61 beta 1 freeware      Copyright (c) 1993-2018 Alexander Roshal
+Extracting from flag.rar
+Enter password (will not be echoed) for flag2.png: 
+Extracting  flag2.png                                                 OK 
+All OK
+</code></pre></div></div>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/5.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/5.png" alt="5" /></a></p>
+
+<p>Great, that looks like the second half of the flag.</p>
+
+<blockquote>
+  <h4 id="second-half-an_am4zing__i_gu3ss_">Second half: aN_Am4zINg_!_i_gU3Ss???_}</h4>
+</blockquote>
+
+<p>Let’s return back the the chrome process, the first thing is to check the browsing history.</p>
+
+<p>This amazing github repo has the plugin we need: <a href="https://github.com/superponible/volatility-plugins">Volatility-Plugins</a></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility --plugins=plugins/ -f MemoryDump_Lab6.raw --profile Win7SP1x64 chromehistory &gt; chromehistory.txt
+</code></pre></div></div>
+
+<p>Scrolling through the history dump, I notices a pastebin link (<code class="language-plaintext highlighter-rouge">https://pastebin.com/RSGSi1hk</code>).</p>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/6.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/6.png" alt="6" /></a></p>
+
+<p>Here is what I found.</p>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/7.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/7.png" alt="7" /></a></p>
+
+<p>There is a link to a google drive doc along with the note <code class="language-plaintext highlighter-rouge">David sent the key in mail</code>.</p>
+
+<p>The doc file is just some lorem ipsum text, but if you look carefully you can see a mega link (took me a while).</p>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/8.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/8.png" alt="8" /></a></p>
+
+<p>Let’s see what this mega link has.</p>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/9.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/9.png" alt="9" /></a></p>
+
+<p>Another password, I hate my life :(</p>
+
+<p>At this point I got stuck, so I tried every volatility plugin I know about. Then the magic happened.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">screenshot</code> plugin saved the day.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility --plugins=plugins/ -f MemoryDump_Lab6.raw --profile Win7SP1x64 screenshot -D lab6_output
+</code></pre></div></div>
+
+<p>It dumped 13 images, all of them are just white images except for this one.</p>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/10.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/10.png" alt="10" /></a></p>
+
+<p>There is a windows with the title <code class="language-plaintext highlighter-rouge">Mega Drive Key ....</code>, that looks promising. so let’s search for this string in memory.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ strings MemoryDump_Lab6.raw | grep "Mega Drive Key"
+.........
+Mega Drive Key - davidbenjamin939@gmail.com - Gmail
+top['GM_TRACING_THREAD_DETAILS_CHUNK_START'] = (window.performance &amp;&amp; window.performance.now) ? window.performance.now() : null; top._GM_setData({"Cl6csf":[["simls",0,"{\"2\":[{\"1\":0,\"2\":{\"1\":\"Mega Drive Key\",\"2\":\"THE KEY IS zyWxCjCYYSEMA-hZe552qWVXiPwa5TecODbjnsscMIU\"
+.........
+</code></pre></div></div>
+
+<p>Look at that, we got the key (a good pair of eyes required). the key is: <code class="language-plaintext highlighter-rouge">zyWxCjCYYSEMA-hZe552qWVXiPwa5TecODbjnsscMIU</code>.</p>
+
+<p>After decrypting the file, it turned out to be an image. but unfortunately it was corrupted.</p>
+
+<p>Opening it with hexedit, the IHDR part was corrupted (iHDR). so all we need to do is to change <code class="language-plaintext highlighter-rouge">i (69)</code> to <code class="language-plaintext highlighter-rouge">I (49)</code>.</p>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/11.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/11.png" alt="11" /></a></p>
+
+<p>Finally we got the first part of the flag, that was a long journey.</p>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab6/12.png"><img src="/assets/images/ctf-writeups/memlabs/lab6/12.png" alt="12" /></a></p>
+
+<blockquote>
+  <h4 id="flag-inctfthi5ch4ll3ng3_s_g0nn4_b3__an_am4zing__i_gu3ss">Flag: inctf{thi5<em>cH4LL3Ng3_!s_g0nn4_b3_?_aN_Am4zINg_!_i_gU3Ss???</em>}</h4>
+</blockquote>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/pages/elbouzarazi/categories/#ctf-writeups" class="page__taxonomy-item" rel="tag">CTF Writeups</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-05-17T00:00:00+01:00">May 17, 2020</time></p>
+        
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/pages/elbouzarazi/ctf%20writeups/memlabs-lab5/" class="pagination--pager" title="MemLabs - Lab5
+">Previous</a>
+    
+    
+      <a href="/pages/elbouzarazi/malware%20analysis/smokeloader/" class="pagination--pager" title="Deep Analysis of SmokeLoader
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/pages/elbouzarazi/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 zakariae Elbouzarazi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/pages/elbouzarazi/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr.min.js"></script>
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr-store.js"></script>
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <script>
+  window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+  ga('create','UA-165194559-1','auto');
+  ga('set', 'anonymizeIp', false);
+  ga('send','pageview')
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

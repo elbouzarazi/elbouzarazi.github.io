@@ -1,0 +1,595 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Writing x64dbg scripts - Zakariae el bouzarazi</title>
+<meta name="description" content="x64dbg is an open-source x64/x32 debugger for windows, it has dozens of features that make the life of reverse engineers and malware… ">
+
+
+  <meta name="author" content="Zakariae El bouzarazi">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Zakariae el bouzarazi">
+<meta property="og:title" content="Writing x64dbg scripts">
+<meta property="og:url" content="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/tutorials/writing-x64dbg-scripts/">
+
+
+  <meta property="og:description" content="x64dbg is an open-source x64/x32 debugger for windows, it has dozens of features that make the life of reverse engineers and malware… ">
+
+
+
+  <meta property="og:image" content="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/assets/images/tutorials/x64dbg/scripting/logo.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2022-12-16T00:00:00+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/tutorials/writing-x64dbg-scripts/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "zakariae Elbouzarazi",
+      "url": "https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="J3MnMF94zaZhTUoNtUiRt9cKsr7hiMyTxEdAvQ3GfmY" />
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/pages/elbouzarazi/feed.xml" type="application/atom+xml" rel="alternate" title="Zakariae el bouzarazi Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/pages/elbouzarazi/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+<!-- favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/site_data/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/site_data/favicon-16x16.png">
+<meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/pages/elbouzarazi/"><img src="/pages/elbouzarazi/assets/images/site_data/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/pages/elbouzarazi/">
+          Zakariae el bouzarazi
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#malware-analysis">Malware Analysis</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#binary-exploitation">Binary Exploitation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#ctf-writeups">CTF Writeups</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#tutorials">Tutorials</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories">All Categories</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/pages/elbouzarazi/assets/images/site_data/avatar.jpg" alt="Zakariae El bouzarazi" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Zakariae El bouzarazi</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Malware Analysis &amp; Reverse Engineering Adventures.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="zekuelbouzrazi@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/_n1ghtw0lf" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/zakariae-elbouzarazi-34126b293/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/elbouzarazi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Writing x64dbg scripts">
+    <meta itemprop="description" content="x64dbg is an open-source x64/x32 debugger for windows, it has dozens of features that make the life of reverse engineers and malware analysts easier.">
+    <meta itemprop="datePublished" content="2022-12-16T00:00:00+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Writing x64dbg scripts
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 minute read
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>x64dbg is an open-source x64/x32 debugger for windows, it has dozens of features that make the life of reverse engineers and malware analysts easier.</p>
+
+<p>One of the coolest features of x64dbg is that it’s extendable, it comes with a debuggable scripting language and a software development kit for writing your own plugins.</p>
+
+<p>In this post we will talk about x64dbg scripting and in the <a href="https://n1ght-w0lf.github.io/tutorials/writing-x64dbg-plugins">next one</a> we will talk about plugins.</p>
+
+<p>Scripts are just a sequence of commands, you can see all the available commands <a href="https://help.x64dbg.com/en/latest/commands/index.html">here</a>.</p>
+
+<p>To execute a command you can simply type it in the command prompt and check the result in the <code class="language-plaintext highlighter-rouge">Log</code> window.</p>
+
+<p><a href="/assets/images/tutorials/x64dbg/scripting/1.png"><img src="/assets/images/tutorials/x64dbg/scripting/1.png" alt="1" /></a></p>
+
+<p>For this tutorial we will write a simple script to automatically dump unpacked PE payloads in memory.</p>
+
+<p>The unpacking workflow (how I usually do it) is to set a breakpoint at <code class="language-plaintext highlighter-rouge">VirtualAlloc</code> and <code class="language-plaintext highlighter-rouge">VirtualProtect</code>, run the program and follow the memory allocations in dump waiting for the MZ header to appear then dump that memory region. Let’s use the power of scripting to automate this process.</p>
+
+<p>First we will define two variables to hold the address and size of allocated memory regions using <code class="language-plaintext highlighter-rouge">var</code> command.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">var</span> <span class="n">mem_addr</span>
+<span class="n">var</span> <span class="n">mem_size</span>
+</code></pre></div></div>
+
+<p>Next we can set our breakpoints.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bp</span> <span class="n">VirtualAlloc</span>
+<span class="n">SetBreakpointCommand</span> <span class="n">VirtualAlloc</span><span class="p">,</span> <span class="s">"scriptcmd call cb_virtual_alloc"</span>
+
+<span class="n">bp</span> <span class="n">VirtualProtect</span>
+<span class="n">SetBreakpointCommand</span> <span class="n">VirtualProtect</span><span class="p">,</span> <span class="s">"scriptcmd call cb_virtual_protect"</span>
+</code></pre></div></div>
+
+<p>We can use <code class="language-plaintext highlighter-rouge">SetBreakpointCommand</code> to set a command to execute when the breakpoint is hit.</p>
+
+<p>The command we need here is <code class="language-plaintext highlighter-rouge">call</code> which will jump to a callback function defined by a label, we also have to use <code class="language-plaintext highlighter-rouge">scriptcmd</code> to execute the call in the context of a running script (not in the context of the debugging loop).</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">cb_virtual_alloc:</span>
+    <span class="n">rtr</span>
+    <span class="n">set</span> <span class="n">mem_addr</span><span class="p">,</span> <span class="n">cax</span>
+    <span class="n">log</span> <span class="s">"Allocated memory address: {x:mem_addr}"</span>
+    <span class="n">set</span> <span class="n">mem_size</span><span class="p">,</span> <span class="n">arg</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">log</span> <span class="s">"Allocated memory size: {x:mem_size}"</span>
+</code></pre></div></div>
+
+<p>When we reach this callback we first need to use <code class="language-plaintext highlighter-rouge">rtr</code> command (run till return) to let <code class="language-plaintext highlighter-rouge">VirtualAlloc</code> does the memory allocation.</p>
+
+<p>Next we can get the returned memory address stored at <code class="language-plaintext highlighter-rouge">eax/rax</code> and store that value in <code class="language-plaintext highlighter-rouge">mem_addr</code> variable.</p>
+
+<p>x64dbg provides the following registers: <code class="language-plaintext highlighter-rouge">cax</code> , <code class="language-plaintext highlighter-rouge">cbx</code> , <code class="language-plaintext highlighter-rouge">ccx</code> , <code class="language-plaintext highlighter-rouge">cdx</code> , <code class="language-plaintext highlighter-rouge">csp</code> , <code class="language-plaintext highlighter-rouge">cbp</code> , <code class="language-plaintext highlighter-rouge">csi</code> , <code class="language-plaintext highlighter-rouge">cdi</code> , <code class="language-plaintext highlighter-rouge">cip</code> which are mapped to 32-bit registers on a 32-bit platform, and to 64-bit registers on a 64-bit platform. This gives you the ability to write architecture-independent code, so we will use <code class="language-plaintext highlighter-rouge">cax</code> to get the return value.</p>
+
+<p>As all good developers know the best debugging technique is print-based debugging :)</p>
+
+<p>So we can use the <code class="language-plaintext highlighter-rouge">log</code> command to print some logging messages.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">log</code> command takes one argument which is a format string, you can read about the string formatter <a href="https://help.x64dbg.com/en/latest/introduction/Formatting.html">here</a>. We only need the basic syntax which is <code class="language-plaintext highlighter-rouge">{?:expression}</code> where <code class="language-plaintext highlighter-rouge">?</code> is the optional type of the expression (<code class="language-plaintext highlighter-rouge">x</code> for hex value).</p>
+
+<p>Next we need to get the size of the allocated memory which is passed to <code class="language-plaintext highlighter-rouge">VirtualAlloc</code> as the second argument.</p>
+
+<p>To get an argument at a given index we can use the expression function <code class="language-plaintext highlighter-rouge">arg.get(index)</code> which gets the argument at a given index (zero-based). Note that you should be inside the function boundaries to get the correct value.</p>
+
+<p>With that done let’s define the next callback.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">cb_virtual_protect:</span>
+    <span class="n">log</span> <span class="s">"New protection: {x:arg.get(2)}"</span>
+    <span class="n">cmp</span> <span class="n">word</span><span class="p">(</span><span class="n">mem_addr</span><span class="p">),</span> <span class="mi">5</span><span class="n">a4d</span>
+    <span class="n">jne</span> <span class="n">main</span>
+    <span class="n">savedata</span> <span class="o">:</span><span class="n">memdump</span><span class="o">:</span><span class="p">,</span> <span class="n">mem_addr</span><span class="p">,</span> <span class="n">mem_size</span>
+</code></pre></div></div>
+
+<p>First we log the third argument of <code class="language-plaintext highlighter-rouge">VirtualProtect</code> which is the new memory protection, this can be used to check for protection changes which might indicate unpacking but we won’t use it here.</p>
+
+<p>Next we use another expression function <code class="language-plaintext highlighter-rouge">word</code> to read the first 2 bytes from the previously allocated memory address and compare them to <code class="language-plaintext highlighter-rouge">0x5a4d</code> (the MZ header). Note that all numbers are interpreted as hex by default.</p>
+
+<p>If the check is false we jump to the <code class="language-plaintext highlighter-rouge">main</code> label and continue execution, if not we save that memory region to disk.</p>
+
+<p>The first argument of <code class="language-plaintext highlighter-rouge">savedata</code> command is the filename, if we use <code class="language-plaintext highlighter-rouge">:memdump:</code> as a name it will save the file as <code class="language-plaintext highlighter-rouge">memdump_pid_addr_size.bin</code> in the x64dbg directory.</p>
+
+<p>Finally we use <code class="language-plaintext highlighter-rouge">run</code> command to run the program and watch the magic happen. you can use <code class="language-plaintext highlighter-rouge">Tab</code> to step into the script or <code class="language-plaintext highlighter-rouge">Space</code> to run the script.</p>
+
+<video src="https://user-images.githubusercontent.com/58216643/208249322-502985c8-fb2a-4571-af57-a39b0b44eca8.mp4" controls="controls" style="max-width: 730px;"></video>
+
+<p>Simple as that.</p>
+
+<p>Full script:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// define a variable to hold allocated mem address</span>
+<span class="n">var</span> <span class="n">mem_addr</span>
+<span class="c1">// define a variable to hold allocated mem size</span>
+<span class="n">var</span> <span class="n">mem_size</span>
+
+<span class="c1">// set breakpoint on VirtualAlloc</span>
+<span class="n">bp</span> <span class="n">VirtualAlloc</span>
+<span class="c1">// set callback on breakpoint hit</span>
+<span class="n">SetBreakpointCommand</span> <span class="n">VirtualAlloc</span><span class="p">,</span> <span class="s">"scriptcmd call cb_virtual_alloc"</span>
+<span class="c1">// set breakpoint on VirtualProtect</span>
+<span class="n">bp</span> <span class="n">VirtualProtect</span>
+<span class="c1">// set callback on breakpoint hit</span>
+<span class="n">SetBreakpointCommand</span> <span class="n">VirtualProtect</span><span class="p">,</span> <span class="s">"scriptcmd call cb_virtual_protect"</span>
+
+<span class="c1">// go to main label</span>
+<span class="k">goto</span> <span class="n">main</span>
+
+<span class="c1">// define VirtualAlloc callback label</span>
+<span class="n">cb_virtual_alloc</span><span class="o">:</span>
+    <span class="c1">// run until return (stepout)</span>
+    <span class="n">rtr</span>
+    <span class="c1">// set mem_addr value to cax value (return value)</span>
+    <span class="n">set</span> <span class="n">mem_addr</span><span class="p">,</span> <span class="n">cax</span>
+    <span class="c1">// log memory address</span>
+    <span class="n">log</span> <span class="s">"Allocated memory address: {x:mem_addr}"</span>
+    <span class="c1">// set mem_size value to VirtualAlloc's second arg value (region size)</span>
+    <span class="n">set</span> <span class="n">mem_size</span><span class="p">,</span> <span class="n">arg</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1">// log memory size</span>
+    <span class="n">log</span> <span class="s">"Allocated memory size: {x:mem_size}"</span>
+    <span class="c1">// go to main label</span>
+    <span class="k">goto</span> <span class="n">main</span>
+
+<span class="c1">// define VirtualProtect callback label</span>
+<span class="n">cb_virtual_protect</span><span class="o">:</span>
+    <span class="c1">// log VirtualProtect's second arg value (new protection)</span>
+    <span class="n">log</span> <span class="s">"New protection: {x:arg.get(2)}"</span>
+    <span class="c1">// compare the first 2 bytes at mem_addr address to "MZ"</span>
+    <span class="n">cmp</span> <span class="n">word</span><span class="p">(</span><span class="n">mem_addr</span><span class="p">),</span> <span class="mi">5</span><span class="n">a4d</span>
+    <span class="c1">// if not equal, jump to main label</span>
+    <span class="n">jne</span> <span class="n">main</span>
+    <span class="c1">// dump data at mem_addr address to disk</span>
+    <span class="n">savedata</span> <span class="o">:</span><span class="n">memdump</span><span class="o">:</span><span class="p">,</span> <span class="n">mem_addr</span><span class="p">,</span> <span class="n">mem_size</span>
+
+<span class="c1">// define main label</span>
+<span class="n">main</span><span class="o">:</span>
+    <span class="c1">// run the program</span>
+    <span class="n">run</span>
+
+<span class="c1">// end the script</span>
+<span class="n">ret</span>
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/pages/elbouzarazi/categories/#tutorials" class="page__taxonomy-item" rel="tag">Tutorials</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-12-16T00:00:00+01:00">December 16, 2022</time></p>
+        
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/pages/elbouzarazi/tutorials/yara-for-config-extraction/" class="pagination--pager" title="YARA for config extraction
+">Previous</a>
+    
+    
+      <a href="/pages/elbouzarazi/tutorials/writing-x64dbg-plugins/" class="pagination--pager" title="Writing x64dbg plugins
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/pages/elbouzarazi/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 zakariae Elbouzarazi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/pages/elbouzarazi/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr.min.js"></script>
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr-store.js"></script>
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <script>
+  window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+  ga('create','UA-165194559-1','auto');
+  ga('set', 'anonymizeIp', false);
+  ga('send','pageview')
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
