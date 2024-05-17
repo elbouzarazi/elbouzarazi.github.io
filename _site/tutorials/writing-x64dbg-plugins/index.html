@@ -1,0 +1,710 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Writing x64dbg plugins - Zakariae el bouzarazi</title>
+<meta name="description" content="In the previous post we talked about writing x64dbg scripts, now let’s dive deeper and write our own plugin to do the same… ">
+
+
+  <meta name="author" content="Zakariae El bouzarazi">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Zakariae el bouzarazi">
+<meta property="og:title" content="Writing x64dbg plugins">
+<meta property="og:url" content="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/tutorials/writing-x64dbg-plugins/">
+
+
+  <meta property="og:description" content="In the previous post we talked about writing x64dbg scripts, now let’s dive deeper and write our own plugin to do the same… ">
+
+
+
+  <meta property="og:image" content="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/assets/images/tutorials/x64dbg/plugins/logo.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2022-12-17T00:00:00+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/tutorials/writing-x64dbg-plugins/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "zakariae Elbouzarazi",
+      "url": "https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="J3MnMF94zaZhTUoNtUiRt9cKsr7hiMyTxEdAvQ3GfmY" />
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/pages/elbouzarazi/feed.xml" type="application/atom+xml" rel="alternate" title="Zakariae el bouzarazi Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/pages/elbouzarazi/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+<!-- favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/site_data/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/site_data/favicon-16x16.png">
+<meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/pages/elbouzarazi/"><img src="/pages/elbouzarazi/assets/images/site_data/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/pages/elbouzarazi/">
+          Zakariae el bouzarazi
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#malware-analysis">Malware Analysis</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#binary-exploitation">Binary Exploitation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#ctf-writeups">CTF Writeups</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#tutorials">Tutorials</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories">All Categories</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/pages/elbouzarazi/assets/images/site_data/avatar.jpg" alt="Zakariae El bouzarazi" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Zakariae El bouzarazi</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Malware Analysis &amp; Reverse Engineering Adventures.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="zekuelbouzrazi@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/_n1ghtw0lf" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/zakariae-elbouzarazi-34126b293/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/elbouzarazi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Writing x64dbg plugins">
+    <meta itemprop="description" content="In the previous post we talked about writing x64dbg scripts, now let’s dive deeper and write our own plugin to do the same job (automatically dumping unpacked PE payloads in memory).">
+    <meta itemprop="datePublished" content="2022-12-17T00:00:00+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Writing x64dbg plugins
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 minute read
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#setup">Setup</a></li>
+  <li><a href="#plugin-structure">Plugin structure</a></li>
+  <li><a href="#sdk-functions">SDK functions</a></li>
+  <li><a href="#implementation">Implementation</a></li>
+  <li><a href="#trying-our-plugin">Trying our plugin</a></li>
+  <li><a href="#final-words">Final words</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>In the <a href="https://n1ght-w0lf.github.io/tutorials/writing-x64dbg-scripts">previous post</a> we talked about writing x64dbg scripts, now let’s dive deeper and write our own plugin to do the same job (automatically dumping unpacked PE payloads in memory).</p>
+
+<p>x64dbg comes with an integrated plugin SDK for creating plugins using C++.</p>
+
+<h2 id="setup">Setup</h2>
+
+<p>The easiest way to create a plugin is to use the <a href="https://github.com/x64dbg/PluginTemplate">PluginTemplate</a> to create a new repository for your plugin.</p>
+
+<p>Next you can edit <code class="language-plaintext highlighter-rouge">cmake.toml</code> which contains the project configuration, for this tutorial we will only change the <code class="language-plaintext highlighter-rouge">name</code> and <code class="language-plaintext highlighter-rouge">target</code> values to our plugin name.</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name = <span class="s2">"EasyDump"</span>
+....
+[target.EasyDump]
+</code></pre></div></div>
+
+<p>To build the project for 64-bit –&gt; <code class="language-plaintext highlighter-rouge">build64\ProjectName.sln</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake -B build64 -A x64
+cmake --build build64 --config Release
+</code></pre></div></div>
+
+<p>To build the project for 32-bit –&gt; <code class="language-plaintext highlighter-rouge">build32\ProjectName.sln</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake -B build32 -A Win32
+cmake --build build32 --config Release
+</code></pre></div></div>
+
+<h2 id="plugin-structure">Plugin structure</h2>
+
+<p>A plugin must have an exported function called <code class="language-plaintext highlighter-rouge">pluginit</code>, this is the first function that gets called when the plugin is loaded and where the plugin data is initialized.</p>
+
+<p>Other optional exports are:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">plugstop</code>:</li>
+</ul>
+
+<p>called when the plugin is about to be unloaded and where the plugin data cleanup occurs.</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">plugsetup</code>:</p>
+
+    <p>called when the plugin initialization was successful, here you can register menus and other GUI-related things.</p>
+  </li>
+</ul>
+
+<h2 id="sdk-functions">SDK functions</h2>
+
+<p>Before we go any further we need to know what functions exported by the plugin SDK we can use, you can find some of these functions in the official <a href="https://help.x64dbg.com/en/latest/developers/functions/index.html">docs</a> but many of them are not documented.</p>
+
+<p>To view the full list you can explore the SDK header files.</p>
+
+<p><a href="/assets/images/tutorials/x64dbg/plugins/1.png"><img src="/assets/images/tutorials/x64dbg/plugins/1.png" alt="1" /></a></p>
+
+<p>For me plugin SDK functions are divided into 4 main categories:</p>
+
+<ul>
+  <li>
+    <p>_plugin_ functions @<code class="language-plaintext highlighter-rouge">_plugins.h</code>:</p>
+
+    <p>Helper functions for plugin setup, initialization and logging.</p>
+  </li>
+  <li>
+    <p>bridge functions @<code class="language-plaintext highlighter-rouge">bridgemain.h</code>:</p>
+
+    <p>Bridge is the communication library for the DBG and GUI part of x64dbg.</p>
+  </li>
+  <li>
+    <p>scriptapi functions @<code class="language-plaintext highlighter-rouge">_scriptapi_*.h</code>:</p>
+
+    <p>It is intended to be used by plugins. It provides easy scripting experience for developers.</p>
+  </li>
+  <li>
+    <p>TitanEngine functions @<code class="language-plaintext highlighter-rouge">TitanEngine.h</code>:</p>
+
+    <p>Titan is the debugging engine for x64dbg.</p>
+  </li>
+</ul>
+
+<p>Most functions are self explanatory or documented in the official docs, for TitanEngine functions you can find its docs <a href="https://github.com/x64dbg/x64dbg/blob/development/src/dbg/TitanEngine/TitanEngine.txt">here</a> or you can check the markdown version for better readability I uploaded <a href="https://gist.github.com/N1ght-W0lf/49c4141b52acf45434679602acb32f88">here</a>.</p>
+
+<p>Ok enough talk let’s get our hands dirty.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>Your code should go into <code class="language-plaintext highlighter-rouge">plugin.cpp</code> file, let’s start with the plugin main components.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Initialize your plugin data here.</span>
+<span class="kt">bool</span> <span class="nf">pluginInit</span><span class="p">(</span><span class="n">PLUG_INITSTRUCT</span><span class="o">*</span> <span class="n">initStruct</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_plugin_logputs</span><span class="p">(</span><span class="s">"["</span> <span class="n">PLUGIN_NAME</span> <span class="s">"] Loaded successfully!"</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_plugin_registercommand</span><span class="p">(</span><span class="n">pluginHandle</span><span class="p">,</span> <span class="s">"EasyDump"</span><span class="p">,</span> <span class="n">cbEasyDump</span><span class="p">,</span> <span class="nb">true</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">fail</span><span class="p">(</span><span class="s">"Failed to register command"</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// Return false to cancel loading the plugin.</span>
+<span class="p">}</span>
+
+<span class="c1">// Deinitialize your plugin data here.</span>
+<span class="kt">void</span> <span class="n">pluginStop</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">_plugin_unregistercommand</span><span class="p">(</span><span class="n">pluginHandle</span><span class="p">,</span> <span class="s">"EasyDump"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>First we need to register a command that we can use in the command prompt using <code class="language-plaintext highlighter-rouge">_plugin_registercommand</code> function, The definition for this function is:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">_plugin_registercommand</span><span class="p">(</span>
+	<span class="kt">int</span> <span class="n">pluginHandle</span><span class="p">,</span>          <span class="c1">// Plugin handle</span>
+	<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">command</span><span class="p">,</span>       <span class="c1">// Command name</span>
+	<span class="n">CBPLUGINCOMMAND</span> <span class="n">cbCommand</span><span class="p">,</span> <span class="c1">// Callback function</span>
+	<span class="kt">bool</span> <span class="n">debugonly</span>             <span class="c1">// Restrict the command to debug-only</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>And of course don’t forget to unregister this command inside <code class="language-plaintext highlighter-rouge">pluginStop</code> using <code class="language-plaintext highlighter-rouge">_plugin_unregistercommand</code>.</p>
+
+<p>Now let’s implement the callback function.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">bool</span> <span class="nf">cbEasyDump</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="c1">// Delete All BPs</span>
+    <span class="n">DbgCmdExec</span><span class="p">(</span><span class="s">"bpc"</span><span class="p">);</span>
+
+    <span class="c1">// Set BP on VirtualAlloc ret</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SetAPIBreakPoint</span><span class="p">(</span><span class="s">"kernelbase.dll"</span><span class="p">,</span> <span class="s">"VirtualAlloc"</span><span class="p">,</span> <span class="n">UE_BREAKPOINT</span><span class="p">,</span> <span class="n">UE_APIEND</span><span class="p">,</span> <span class="n">cbVirtualAlloc</span><span class="p">))</span>
+        <span class="n">fail</span><span class="p">(</span><span class="s">"Failed to set a Breakpoint on VirtualAlloc"</span><span class="p">);</span>
+
+    <span class="c1">// Set BP on VirtualProtect start</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SetAPIBreakPoint</span><span class="p">(</span><span class="s">"kernelbase.dll"</span><span class="p">,</span> <span class="s">"VirtualProtect"</span><span class="p">,</span> <span class="n">UE_BREAKPOINT</span><span class="p">,</span> <span class="n">UE_APISTART</span><span class="p">,</span> <span class="n">cbVirtualProtect</span><span class="p">))</span>
+        <span class="n">fail</span><span class="p">(</span><span class="s">"Failed to set a Breakpoint on VirtualProtect"</span><span class="p">);</span>
+
+    <span class="n">_plugin_logprint</span><span class="p">(</span><span class="s">"["</span> <span class="n">PLUGIN_NAME</span> <span class="s">"] Starting the program...</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">DbgCmdExec</span><span class="p">(</span><span class="s">"run"</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Callback arguments are passed in <code class="language-plaintext highlighter-rouge">argv</code> starting at index 1, but our command doesn’t need any arguments.</p>
+
+<p>We will start with deleting all breakpoints to let the plugin run without interruption using <code class="language-plaintext highlighter-rouge">DbgCmdExec</code> to execute <code class="language-plaintext highlighter-rouge">bpc</code> command (breakpoint clear).</p>
+
+<p>Next we set our breakpoints using <code class="language-plaintext highlighter-rouge">SetAPIBreakPoint</code> function which is defined as:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="kr">__stdcall</span> <span class="nf">SetAPIBreakPoint</span><span class="p">(</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="n">szDLLName</span><span class="p">,</span>   <span class="c1">// DLL name</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="n">szAPIName</span><span class="p">,</span>   <span class="c1">// API name</span>
+    <span class="n">DWORD</span> <span class="n">bpxType</span><span class="p">,</span>     <span class="c1">// UE_BREAKPOINT or UE_SINGLESHOOT</span>
+    <span class="n">DWORD</span> <span class="n">bpxPlace</span><span class="p">,</span>    <span class="c1">// UE_APISTART or UE_APIEND</span>
+    <span class="n">LPVOID</span> <span class="n">bpxCallBack</span> <span class="c1">// Callback function</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>For <code class="language-plaintext highlighter-rouge">VirtualAlloc</code> we need to set the breakpoint at return so we will use <code class="language-plaintext highlighter-rouge">UE_APIEND</code> as the <code class="language-plaintext highlighter-rouge">bpxPlace</code> value.</p>
+
+<p>Next we do some logging and run the program.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// VirtualAlloc BP callback</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">cbVirtualAlloc</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">mem_addr</span> <span class="o">=</span> <span class="n">Script</span><span class="o">::</span><span class="n">Register</span><span class="o">::</span><span class="n">GetCAX</span><span class="p">();</span>
+    <span class="c1">// auto x = GetFunctionParameter(DbgGetProcessHandle(), UE_FUNCTION_STDCALL_RET, 2, UE_PARAMETER_DWORD);</span>
+    <span class="n">mem_size</span> <span class="o">=</span> <span class="n">DbgEval</span><span class="p">(</span><span class="s">"arg.get(1)"</span><span class="p">);</span>
+
+    <span class="n">_plugin_logprintf</span><span class="p">(</span><span class="s">"["</span> <span class="n">PLUGIN_NAME</span> <span class="s">"] VirtualAlloc addr: %x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">mem_addr</span><span class="p">);</span>
+    <span class="n">_plugin_logprintf</span><span class="p">(</span><span class="s">"["</span> <span class="n">PLUGIN_NAME</span> <span class="s">"] VirtualAlloc size: %x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">mem_size</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When reach the <code class="language-plaintext highlighter-rouge">VirtualAlloc</code> callback the allocated memory address would be stored at <code class="language-plaintext highlighter-rouge">EAX/RAX</code>, we can use the scriptapi register function <code class="language-plaintext highlighter-rouge">GetCAX</code> to read this value (remember x64dbg provides special registers for architecture-independent code).</p>
+
+<p>To get the memory size stored at the second argument we can use <code class="language-plaintext highlighter-rouge">DbgEval</code> to evaluate <code class="language-plaintext highlighter-rouge">arg.get(1)</code> command and get its result.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// VirtualProtect BP callback</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">cbVirtualProtect</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">header</span> <span class="o">=</span> <span class="n">Script</span><span class="o">::</span><span class="n">Memory</span><span class="o">::</span><span class="n">ReadWord</span><span class="p">(</span><span class="n">mem_addr</span><span class="p">);</span>
+    <span class="c1">// Check for MZ header</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">header</span> <span class="o">==</span> <span class="mh">0x5a4d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_plugin_logprintf</span><span class="p">(</span><span class="s">"["</span> <span class="n">PLUGIN_NAME</span> <span class="s">"] Found a PE file at addr: %x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">mem_addr</span><span class="p">);</span>
+
+        <span class="c1">// Build dumping path</span>
+        <span class="kt">char</span> <span class="n">path</span><span class="p">[</span><span class="n">MAX_PATH</span><span class="p">];</span>
+        <span class="n">Script</span><span class="o">::</span><span class="n">Module</span><span class="o">::</span><span class="n">GetMainModulePath</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
+        <span class="n">sprintf</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\\</span><span class="s">memdump_%X_%zx_%zx.bin"</span><span class="p">,</span> <span class="n">getParentPath</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">DbgGetProcessId</span><span class="p">(),</span> <span class="n">mem_addr</span><span class="p">,</span> <span class="n">mem_size</span><span class="p">);</span>
+
+        <span class="c1">// Dump payload to disk</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">DumpMemory</span><span class="p">(</span><span class="n">DbgGetProcessHandle</span><span class="p">(),</span> <span class="p">(</span><span class="n">LPVOID</span><span class="p">)</span><span class="n">mem_addr</span><span class="p">,</span> <span class="n">mem_size</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
+            <span class="n">_plugin_logprintf</span><span class="p">(</span><span class="s">"["</span> <span class="n">PLUGIN_NAME</span> <span class="s">"] Dumped payload at %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">path</span><span class="p">);</span>
+        <span class="k">else</span>
+            <span class="n">fail</span><span class="p">(</span><span class="s">"Failed to dump the payload"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When we hit <code class="language-plaintext highlighter-rouge">VirtualProtect</code> we can read the first 2 bytes from the allocated memory address to check for the MZ header.</p>
+
+<p>To build a dumping path similar to <code class="language-plaintext highlighter-rouge">:memdump:</code> from <code class="language-plaintext highlighter-rouge">savedata</code> command we need to get the current module path using <code class="language-plaintext highlighter-rouge">GetMainModulePath</code>, get the current process ID using <code class="language-plaintext highlighter-rouge">DbgGetProcessId</code> and append the memory address and size to them.</p>
+
+<p>Finally to dump the payload to disk we can use <code class="language-plaintext highlighter-rouge">DumpMemory</code> passing it the current process handle using <code class="language-plaintext highlighter-rouge">DbgGetProcessHandle</code>, memory address, memory size and file path.</p>
+
+<h2 id="trying-our-plugin">Trying our plugin</h2>
+
+<p>After building the plugin we need to move the plugin files which end with <code class="language-plaintext highlighter-rouge">.dp32</code> or <code class="language-plaintext highlighter-rouge">.dp64</code> depending on the build configuration to <code class="language-plaintext highlighter-rouge">x64dbg\release\(x32|x64)\plugins</code>.</p>
+
+<p>To load the the plugin we can restart x64dbg and it will be loaded automatically or just use <code class="language-plaintext highlighter-rouge">loadplugin</code> command passing it the plugin name like this <code class="language-plaintext highlighter-rouge">loadplugin EasyDump</code>.</p>
+
+<p>Finally we can run <code class="language-plaintext highlighter-rouge">EasyDump</code> (the command we registered in <code class="language-plaintext highlighter-rouge">pluginInit</code>) and watch the magic happen…again.</p>
+
+<p><a href="/assets/images/tutorials/x64dbg/plugins/2.png"><img src="/assets/images/tutorials/x64dbg/plugins/2.png" alt="2" /></a></p>
+
+<p>source code: <a href="https://github.com/N1ght-W0lf/EasyDump">https://github.com/N1ght-W0lf/EasyDump</a></p>
+
+<h3 id="updates">Updates</h3>
+
+<blockquote>
+  <p><strong>Some notes from <a href="https://twitter.com/mrexodia">Duncan Ogilvie @mrexodia</a></strong></p>
+
+  <p>As a general rule I’d avoid using the TitanEngine APIs directly. They can cause some weird scenarios where x64dbg doesn’t know about a breakpoint for example. Unfortunately the plugin API isn’t very strong on this front though, so it’s a lot more work to do the same…</p>
+
+  <p>Also something worth exploring is the C# scripting plugin: <a href="https://github.com/x64dbg/DotX64Dbg">https://github.com/x64dbg/DotX64Dbg</a></p>
+
+  <p>And confusingly <code class="language-plaintext highlighter-rouge">DbgCmdExec</code> (queues a command asynchronously) causes a race condition in your example. Likely you want <code class="language-plaintext highlighter-rouge">DbgCmdExecDirect</code> instead (executed the implementation of the command directly)</p>
+</blockquote>
+
+<h2 id="final-words">Final words</h2>
+
+<p>The goal of this tutorial was to learn more about x64dbg not write the best dumping plugin :)</p>
+
+<p>This tutorial wouldn’t be possible without the help of the official x64dbg <a href="https://help.x64dbg.com/">docs</a> and <a href="https://x64dbg.com/blog/">blog</a>, you can check them out for more in depth info.</p>
+
+<p>You can also find many cool x64dbg plugins <a href="https://github.com/x64dbg/x64dbg/wiki/Plugins">here</a> that can make your life easier.</p>
+
+<p>Special thanks to <a href="https://twitter.com/mrexodia">@mrexodia</a> (creator of x64dbg and many other projects) for his awesome work, you can support him <a href="https://github.com/sponsors/mrexodia">here</a>.</p>
+
+<p>I hope you learned something new, until next time.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/pages/elbouzarazi/categories/#tutorials" class="page__taxonomy-item" rel="tag">Tutorials</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-12-17T00:00:00+01:00">December 17, 2022</time></p>
+        
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/pages/elbouzarazi/tutorials/writing-x64dbg-scripts/" class="pagination--pager" title="Writing x64dbg scripts
+">Previous</a>
+    
+    
+      <a href="/pages/elbouzarazi/tutorials/dotnet-string-decryptor/" class="pagination--pager" title="Dotnet String Decryptor
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/pages/elbouzarazi/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 zakariae Elbouzarazi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/pages/elbouzarazi/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr.min.js"></script>
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr-store.js"></script>
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <script>
+  window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+  ga('create','UA-165194559-1','auto');
+  ga('set', 'anonymizeIp', false);
+  ga('send','pageview')
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
