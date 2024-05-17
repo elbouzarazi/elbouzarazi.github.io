@@ -1,0 +1,552 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>MemLabs - Lab4 - Zakariae el bouzarazi</title>
+<meta name="description" content="My system was recently compromised. The Hacker stole a lot of  information but he also deleted a very important file of mine. I have no idea on how to recover it. The only evidence we have, at this point of  time is this memory dump. Please help me. Note: This challenge is composed of only 1 flag… ">
+
+
+  <meta name="author" content="Zakariae El bouzarazi">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Zakariae el bouzarazi">
+<meta property="og:title" content="MemLabs - Lab4">
+<meta property="og:url" content="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/ctf%20writeups/memlabs-lab4/">
+
+
+  <meta property="og:description" content="My system was recently compromised. The Hacker stole a lot of  information but he also deleted a very important file of mine. I have no idea on how to recover it. The only evidence we have, at this point of  time is this memory dump. Please help me. Note: This challenge is composed of only 1 flag… ">
+
+
+
+  <meta property="og:image" content="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/assets/images/ctf-writeups/memlabs/logo.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2020-05-16T00:00:00+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/ctf%20writeups/memlabs-lab4/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "zakariae Elbouzarazi",
+      "url": "https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="J3MnMF94zaZhTUoNtUiRt9cKsr7hiMyTxEdAvQ3GfmY" />
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/pages/elbouzarazi/feed.xml" type="application/atom+xml" rel="alternate" title="Zakariae el bouzarazi Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/pages/elbouzarazi/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+<!-- favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/site_data/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/site_data/favicon-16x16.png">
+<meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/pages/elbouzarazi/"><img src="/pages/elbouzarazi/assets/images/site_data/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/pages/elbouzarazi/">
+          Zakariae el bouzarazi
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#malware-analysis">Malware Analysis</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#binary-exploitation">Binary Exploitation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#ctf-writeups">CTF Writeups</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#tutorials">Tutorials</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories">All Categories</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/pages/elbouzarazi/assets/images/site_data/avatar.jpg" alt="Zakariae El bouzarazi" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Zakariae El bouzarazi</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Malware Analysis &amp; Reverse Engineering Adventures.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="zekuelbouzrazi@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/_n1ghtw0lf" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/zakariae-elbouzarazi-34126b293/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/elbouzarazi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="MemLabs - Lab4">
+    <meta itemprop="description" content="  Challenge Description  My system was recently compromised. The Hacker stole a lot of  information but he also deleted a very important file of mine. I have no idea on how to recover it. The only evidence we have, at this point of  time is this memory dump. Please help me.  Note: This challenge is composed of only 1 flag.  The flag format for this lab is: inctf{s0me_l33t_Str1ng}  Challenge file: MemLabs_Lab4">
+    <meta itemprop="datePublished" content="2020-05-16T00:00:00+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">MemLabs - Lab4
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 minute read
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <blockquote>
+  <h2 id="challenge-description"><strong>Challenge Description</strong></h2>
+
+  <p>My system was recently compromised. The Hacker stole a lot of  information but he also deleted a very important file of mine. I have no idea on how to recover it. The only evidence we have, at this point of  time is this memory dump. Please help me.</p>
+
+  <p><strong>Note</strong>: This challenge is composed of only 1 flag.</p>
+
+  <p>The flag format for this lab is: <strong>inctf{s0me_l33t_Str1ng}</strong></p>
+
+  <p><strong>Challenge file</strong>: <a href="https://mega.nz/#!Tx41jC5K!ifdu9DUair0sHncj5QWImJovfxixcAY-gt72mCXmYrE">MemLabs_Lab4</a></p>
+</blockquote>
+
+<p>First we need to identify the operating system of the memory image.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab4.raw imageinfo
+</code></pre></div></div>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab4/1.png"><img src="/assets/images/ctf-writeups/memlabs/lab4/1.png" alt="1" /></a></p>
+
+<p>The next thing is to check running processes.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab4.raw --profile Win7SP1x64 pslist
+</code></pre></div></div>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab4/2.png"><img src="/assets/images/ctf-writeups/memlabs/lab4/2.png" alt="2" /></a></p>
+
+<p>The only interesting process here is <code class="language-plaintext highlighter-rouge">StikyNot.exe</code> (this is a rabbit hole, nothing important there).</p>
+
+<p>Looking back at the challenge description, it says something about files and a deleted file. So we can use <code class="language-plaintext highlighter-rouge">filescan</code> to search for interesting files in memory, but  for the sake of variety, I will use <code class="language-plaintext highlighter-rouge">iehistory</code> plugin instead.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">iehistory</code> plugin recovers fragments of IE history index.dat cache files. It can find basic accessed links (via FTP or HTTP), redirected links (–REDR),
+and deleted entries (–LEAK). It applies to any process which loads and uses the wininet.dll library, not just Internet Explorer. Typically that
+includes Windows Explorer and even malware samples.</p>
+</blockquote>
+
+<p>so we can use it to view the history of visited files and directories by windows explorer.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab4.raw --profile Win7SP1x64 iehistory
+..........
+Process: 3012 explorer.exe
+Cache type "URL " at 0x42f5000
+Record length: 0x100
+Location: :2019062920190630: SlimShady@file:///C:/Users/SlimShady/Desktop/Important.txt
+Last modified: 2019-06-29 12:59:43 UTC+0000
+Last accessed: 2019-06-29 07:29:43 UTC+0000
+File Offset: 0x100, Data Offset: 0x0, Data Length: 0x0
+</code></pre></div></div>
+
+<p>What do we have here, a text file that looks important!!!</p>
+
+<p>Now let’s scan for this file in memory to dump it out.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab4.raw --profile Win7SP1x64 filescan | grep Important.txt
+Volatility Foundation Volatility Framework 2.6.1
+0x000000003fc398d0     16      0 R--rw- \Device\HarddiskVolume2\Users\SlimShady\Desktop\Important.txt
+
+$ volatility -f MemoryDump_Lab4.raw --profile Win7SP1x64 dumpfiles -Q 0x000000003fc398d0 -D lab4_output/
+Volatility Foundation Volatility Framework 2.6.1
+DataSectionObject 0x3fc398d0   None   \Device\HarddiskVolume2\Users\SlimShady\Desktop\Important.txt
+</code></pre></div></div>
+
+<p>Unfortunately, <code class="language-plaintext highlighter-rouge">dumpfiles</code> was not able to dump the text file (it was deleted by the hacker).</p>
+
+<p>We need to know a little bit about the MFT table to solve this challenge.</p>
+
+<blockquote>
+  <ul>
+    <li>
+      <p>The NTFS file system contains a file called the master file table, or MFT. There is at least one entry in the MFT for every file on an NTFS file system volume. All information about a file, including its name, size, time and date stamps, permissions, and data content, is stored either in MFT entries, or in space outside the MFT that is described by MFT entries.</p>
+    </li>
+    <li>
+      <p>As files are added to an NTFS file system volume, more entries are added to the MFT and the MFT increases in size. When files are deleted from an NTFS file system volume, their MFT entries are marked as free and may be reused. However, disk space that has been allocated for these entries is not reallocated, and the size of the MFT does not decrease.</p>
+    </li>
+    <li>
+      <p>A file whose size is less than or equal to 1024 bytes will be stored directly in the MFT table (named “resident” file), if it exceeds 1024 bytes the table will only contain the information of its location (named “non-resident” file).</p>
+    </li>
+  </ul>
+</blockquote>
+
+<p>So let’s search for <code class="language-plaintext highlighter-rouge">Important.txt</code> in the MFT table.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab4.raw --profile Win7SP1x64 mftparser &gt; mft.txt
+</code></pre></div></div>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab4/3.png"><img src="/assets/images/ctf-writeups/memlabs/lab4/3.png" alt="3" /></a></p>
+
+<p>And here it’s, the flag characters are scattered across the file, anti-strings technique :)</p>
+
+<blockquote>
+  <h4 id="flag-inctf1_is_n0t_equ4l_7o_2_but_th1s_d0s3nt_m4ke_s3ns3">Flag: inctf{1_is_n0t_EQu4l_7o_2_bUt_th1s_d0s3nt_m4ke_s3ns3}</h4>
+</blockquote>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/pages/elbouzarazi/categories/#ctf-writeups" class="page__taxonomy-item" rel="tag">CTF Writeups</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-05-16T00:00:00+01:00">May 16, 2020</time></p>
+        
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/pages/elbouzarazi/ctf%20writeups/memlabs-lab3/" class="pagination--pager" title="MemLabs - Lab3
+">Previous</a>
+    
+    
+      <a href="/pages/elbouzarazi/ctf%20writeups/memlabs-lab5/" class="pagination--pager" title="MemLabs - Lab5
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/pages/elbouzarazi/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 zakariae Elbouzarazi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/pages/elbouzarazi/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr.min.js"></script>
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr-store.js"></script>
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <script>
+  window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+  ga('create','UA-165194559-1','auto');
+  ga('set', 'anonymizeIp', false);
+  ga('send','pageview')
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

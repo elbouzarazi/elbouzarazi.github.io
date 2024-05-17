@@ -1,0 +1,565 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>MemLabs - Lab5 - Zakariae el bouzarazi</title>
+<meta name="description" content="This challenge is composed of 2 flags but do you really think so? Maybe a little flag is hiding somewhere. Note: There was a small mistake when making this challenge. If you find any string which has the string ‘L4B_3_D0n3!!’ in it, please change it to ‘L4B_5_D0n3’ and then proceed… ">
+
+
+  <meta name="author" content="Zakariae El bouzarazi">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Zakariae el bouzarazi">
+<meta property="og:title" content="MemLabs - Lab5">
+<meta property="og:url" content="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/ctf%20writeups/memlabs-lab5/">
+
+
+  <meta property="og:description" content="This challenge is composed of 2 flags but do you really think so? Maybe a little flag is hiding somewhere. Note: There was a small mistake when making this challenge. If you find any string which has the string ‘L4B_3_D0n3!!’ in it, please change it to ‘L4B_5_D0n3’ and then proceed… ">
+
+
+
+  <meta property="og:image" content="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/assets/images/ctf-writeups/memlabs/logo.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2020-05-17T00:00:00+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/ctf%20writeups/memlabs-lab5/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "zakariae Elbouzarazi",
+      "url": "https://github.com/elbouzarazi/elbouzarazi.github.io/pages/elbouzarazi/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="J3MnMF94zaZhTUoNtUiRt9cKsr7hiMyTxEdAvQ3GfmY" />
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/pages/elbouzarazi/feed.xml" type="application/atom+xml" rel="alternate" title="Zakariae el bouzarazi Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/pages/elbouzarazi/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+<!-- favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/site_data/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/site_data/favicon-16x16.png">
+<meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/pages/elbouzarazi/"><img src="/pages/elbouzarazi/assets/images/site_data/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/pages/elbouzarazi/">
+          Zakariae el bouzarazi
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#malware-analysis">Malware Analysis</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#binary-exploitation">Binary Exploitation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#ctf-writeups">CTF Writeups</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories/#tutorials">Tutorials</a>
+            </li><li class="masthead__menu-item">
+              <a href="/pages/elbouzarazi/categories">All Categories</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/pages/elbouzarazi/assets/images/site_data/avatar.jpg" alt="Zakariae El bouzarazi" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Zakariae El bouzarazi</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Malware Analysis &amp; Reverse Engineering Adventures.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="zekuelbouzrazi@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/_n1ghtw0lf" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/zakariae-elbouzarazi-34126b293/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/elbouzarazi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="MemLabs - Lab5">
+    <meta itemprop="description" content="  Challenge Description  This challenge is composed of 2 flags but do you really think so? Maybe a little flag is hiding somewhere.  Note: There was a small mistake when making this challenge. If you find any string which has the string “L4B_3_D0n3*!!**” in it, please change it to “L4B_5_D0n3*!!**” and then proceed.  Hint: You’ll get the stage 2 flag only when you have the stage 1 flag.  Challenge file: MemLabs_Lab5">
+    <meta itemprop="datePublished" content="2020-05-17T00:00:00+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">MemLabs - Lab5
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <blockquote>
+  <h2 id="challenge-description"><strong>Challenge Description</strong></h2>
+
+  <p>This challenge is composed of 2 flags but do you really think so? Maybe a little flag is hiding somewhere.</p>
+
+  <p><strong>Note</strong>: There was a small mistake when making this challenge. If you find any string which has the string “<strong><em>L4B_3_D0n3*!!**” in it, please change it to “</em></strong>L4B_5_D0n3*!!**” and then proceed.</p>
+
+  <p><strong>Hint</strong>: You’ll get the stage 2 flag only when you have the stage 1 flag.</p>
+
+  <p><strong>Challenge file</strong>: <a href="https://mega.nz/#!Ps5ViIqZ!UQtKmUuKUcqqtt6elP_9OJtnAbpwwMD7lVKN1iWGoec">MemLabs_Lab5</a></p>
+</blockquote>
+
+<p>First we need to identify the operating system of the memory image.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab5.raw imageinfo
+</code></pre></div></div>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab5/1.png"><img src="/assets/images/ctf-writeups/memlabs/lab5/1.png" alt="1" /></a></p>
+
+<p>Next, let’s check the processes list.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab5.raw --profile Win7SP1x64 pslist
+</code></pre></div></div>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab5/2.png"><img src="/assets/images/ctf-writeups/memlabs/lab5/2.png" alt="2" /></a></p>
+
+<p>Interesting, there’s a <code class="language-plaintext highlighter-rouge">WinRAR.exe</code> process, let’s see what the cmdline for that process is.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab5.raw --profile Win7SP1x64 cmdline | grep WinRAR.exe
+Volatility Foundation Volatility Framework 2.6.1
+WinRAR.exe pid:   2924
+Command line : "C:\Program Files\WinRAR\WinRAR.exe" "C:\Users\SmartNet\Documents\SW1wb3J0YW50.rar"
+</code></pre></div></div>
+
+<p>The rar file name is <code class="language-plaintext highlighter-rouge">SW1wb3J0YW50.rar</code>, let’s dump this file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab5.raw --profile Win7SP1x64 filescan | grep SW1wb3J0YW50.rar
+Volatility Foundation Volatility Framework 2.6.1
+0x000000003eed56f0      1      0 R--r-- \Device\HarddiskVolume2\Users\SmartNet\Documents\SW1wb3J0YW50.rar
+
+$ volatility -f MemoryDump_Lab5.raw --profile Win7SP1x64 dumpfiles -Q 0x000000003eed56f0 -D lab5_output/
+Volatility Foundation Volatility Framework 2.6.1
+DataSectionObject 0x3eed56f0   None   \Device\HarddiskVolume2\Users\SmartNet\Documents\SW1wb3J0YW50.rar
+</code></pre></div></div>
+
+<p>Going ahead to unrar this file and I saw this comment.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ unrar e SW1wb3J0YW50.rar 
+UNRAR 5.61 beta 1 freeware      Copyright (c) 1993-2018 Alexander Roshal
+Extracting from SW1wb3J0YW50.rar
+Enter password (will not be echoed) for Stage2.png: 
+</code></pre></div></div>
+
+<p>Clearly this is stage2’s flag and the password for this file is stage1’s flag, so we need to get stage1’s flag first.</p>
+
+<p>At this point I had no clue of what to do, so I tried my luck with <code class="language-plaintext highlighter-rouge">iehistory</code> (I explained it in the previous lab) and I notices something interesting.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ volatility -f MemoryDump_Lab5.raw --profile Win7SP1x64 iehistory
+.........
+Process: 1396 explorer.exe
+Cache type "URL " at 0x28c5900
+Record length: 0x100
+Location: Visited: Alissa Simpson@file:///C:/Users/Alissa%20Simpson/Pictures/ZmxhZ3shIV93M0xMX2QwbjNfU3Q0ZzMtMV8wZl9MNEJfM19EMG4zXyEhfQ.bmp
+.........
+Process: 1396 explorer.exe
+Cache type "URL " at 0x28c5a00
+Record length: 0x100
+Location: Visited: Alissa Simpson@file:///C:/Users/Alissa%20Simpson/Pictures/ZmxhZ3shIV93M0xMX2QwbjNfU3Q0ZzMtMV8wZl9MNEJfNV9EMG4zXyEhfQ.bmp
+.........
+Process: 1396 explorer.exe
+Cache type "URL " at 0x28c5c00
+Record length: 0x100
+Location: Visited: Alissa Simpson@file:///C:/Windows/AppPatch/ZmxhZ3shIV93M0xMX2QwbjNfU3Q0ZzMtMV8wZl9MNEJfNV9EMG4zXyEhfQ.bmp
+</code></pre></div></div>
+
+<p>This <code class="language-plaintext highlighter-rouge">.bmp</code> file is repeated multiple times and it’s names looks like Base64 string, so I tries to decode it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo ZmxhZ3shIV93M0xMX2QwbjNfU3Q0ZzMtMV8wZl9MNEJfNV9EMG4zXyEhfQ | base64 -d
+flag{!!_w3LL_d0n3_St4g3-1_0f_L4B_5_D0n3_!!}
+</code></pre></div></div>
+
+<p>Voila! we got the flag of stage1.</p>
+
+<blockquote>
+  <h4 id="flag-1-flagw3ll_d0n3_st4g3-1_0f_l4b_5_d0n3">Flag 1: flag{!!<em>w3LL_d0n3_St4g3-1_0f_L4B_5_D0n3</em>!!}</h4>
+</blockquote>
+
+<p>Now let’s return back to the rar file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ unrar e SW1wb3J0YW50.rar 
+UNRAR 5.61 beta 1 freeware      Copyright (c) 1993-2018 Alexander Roshal
+Extracting from SW1wb3J0YW50.rar
+Enter password (will not be echoed) for Stage2.png: 
+Extracting  Stage2.png                                                OK 
+All OK
+</code></pre></div></div>
+
+<p>As I said before, the password is stage1’s flag.</p>
+
+<p><a href="/assets/images/ctf-writeups/memlabs/lab5/3.png"><img src="/assets/images/ctf-writeups/memlabs/lab5/3.png" alt="3" /></a></p>
+
+<blockquote>
+  <h4 id="flag-2-flagw1th_th1s_tage_2_1s_c0mpl3t3_">Flag 2: flag{W1th_th1s_$taGe_2_1s_c0mPL3T3_!!}</h4>
+</blockquote>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/pages/elbouzarazi/categories/#ctf-writeups" class="page__taxonomy-item" rel="tag">CTF Writeups</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-05-17T00:00:00+01:00">May 17, 2020</time></p>
+        
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/pages/elbouzarazi/ctf%20writeups/memlabs-lab4/" class="pagination--pager" title="MemLabs - Lab4
+">Previous</a>
+    
+    
+      <a href="/pages/elbouzarazi/ctf%20writeups/memlabs-lab6/" class="pagination--pager" title="MemLabs - Lab6
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/pages/elbouzarazi/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 zakariae Elbouzarazi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/pages/elbouzarazi/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr.min.js"></script>
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr-store.js"></script>
+<script src="/pages/elbouzarazi/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <script>
+  window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+  ga('create','UA-165194559-1','auto');
+  ga('set', 'anonymizeIp', false);
+  ga('send','pageview')
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
