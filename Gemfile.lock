@@ -278,7 +278,11 @@ DEPENDENCIES
   activesupport (>= 6.0.3.1)
   github-pages
   jekyll (~> 3.9.5)
+  jekyll-feed
+  jekyll-github-metadata
   jekyll-include-cache
+  jekyll-seo-tag
+  jekyll-sitemap
   minimal-mistakes-jekyll
   wdm (>= 0.1.0)
   webrick (~> 1.7)
